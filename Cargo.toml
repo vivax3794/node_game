@@ -1,0 +1,44 @@
+[package]
+name = "node_game"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = {version = "0.13", features=["dynamic_linking", "wayland"]}
+bevy-inspector-egui = {version="0.23", optional=true}
+bevy_states_utils = "0.3"
+bevy-debug-text-overlay = { version = "8.1", default-features = false }
+bevy_embedded_assets = { version = "0.10", optional=true}
+bevy_asset_loader = {version="0.20", features=["2d"]} 
+bevy_egui = "0.26"
+egui-snarl = "0.3.0"
+bevy_prototype_lyon = "0.11.0"
+bevy_rand = "0.6.0"
+bevy_prng = { version = "0.6.0", features = ["wyrand"] }
+rand = "0.8.5"
+
+[features]
+dev = ["dep:bevy-inspector-egui", "bevy-debug-text-overlay/debug"]
+fast_compile = ["bevy/dynamic_linking"]
+release = ["dep:bevy_embedded_assets"]
+web = [
+    "bevy/webgl2",
+]
+non_web = []
+default = ["non_web"] 
+
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+lto = true
+opt-level = 3
+codegen-units = 1
+incremental = false
+debug = false
+
+
